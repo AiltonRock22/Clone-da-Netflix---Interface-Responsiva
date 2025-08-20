@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetFlix Clone - YouTube API</title>
+    <title>FilosoFlix - Conteúdo Filosófico e Educativo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,16 +14,19 @@
         }
         
         :root {
-            --netflix-red: #e50914;
-            --netflix-black: #141414;
-            --netflix-dark: #181818;
-            --netflix-gray: #b3b3b3;
-            --netflix-white: #ffffff;
+            --primary: #8e44ad;
+            --primary-dark: #6c3483;
+            --secondary: #3498db;
+            --accent: #f1c40f;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #b3b3b3;
+            --lighter: #ffffff;
         }
         
         body {
-            background-color: var(--netflix-black);
-            color: var(--netflix-white);
+            background-color: var(--dark);
+            color: var(--lighter);
             line-height: 1.6;
         }
         
@@ -37,19 +40,25 @@
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(26, 26, 46, 0.9) 0%, rgba(26, 26, 46, 0) 100%);
             transition: background-color 0.3s;
         }
         
         header.scrolled {
-            background-color: var(--netflix-black);
+            background-color: var(--dark);
         }
         
         .logo {
-            color: var(--netflix-red);
+            color: var(--primary);
             font-size: 2rem;
             font-weight: 700;
             text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
         }
         
         .nav-links {
@@ -62,14 +71,14 @@
         }
         
         .nav-links a {
-            color: var(--netflix-white);
+            color: var(--lighter);
             text-decoration: none;
             font-size: 0.9rem;
             transition: color 0.3s;
         }
         
         .nav-links a:hover {
-            color: var(--netflix-gray);
+            color: var(--accent);
         }
         
         .nav-icons {
@@ -81,13 +90,19 @@
             margin-left: 20px;
             cursor: pointer;
             font-size: 1.2rem;
+            color: var(--lighter);
+            transition: color 0.3s;
+        }
+        
+        .nav-icons i:hover {
+            color: var(--accent);
         }
         
         .user-profile {
             width: 32px;
             height: 32px;
             border-radius: 4px;
-            background-color: var(--netflix-red);
+            background-color: var(--primary);
             margin-left: 20px;
             display: flex;
             align-items: center;
@@ -98,8 +113,8 @@
         /* Hero Section */
         .hero {
             height: 80vh;
-            background: linear-gradient(to top, var(--netflix-black) 0%, transparent 50%), 
-                        url('https://source.unsplash.com/random/1600x900/?movie') no-repeat center center/cover;
+            background: linear-gradient(to top, var(--dark) 0%, transparent 50%), 
+                        url('https://source.unsplash.com/random/1600x900/?philosophy,thinker') no-repeat center center/cover;
             display: flex;
             align-items: flex-end;
             padding: 0 40px 100px;
@@ -116,7 +131,7 @@
             margin-bottom: 20px;
             font-size: 3.5rem;
             font-weight: 700;
-            color: var(--netflix-white);
+            color: var(--lighter);
         }
         
         .hero-info {
@@ -128,17 +143,19 @@
         
         .hero-info span {
             margin-right: 15px;
+            display: flex;
+            align-items: center;
         }
         
         .match {
-            color: #46d369;
+            color: var(--accent);
             font-weight: 600;
         }
         
         .hero-description {
             margin-bottom: 20px;
             line-height: 1.5;
-            color: var(--netflix-gray);
+            color: var(--light);
         }
         
         .hero-buttons {
@@ -160,17 +177,17 @@
         }
         
         .btn-play {
-            background-color: var(--netflix-white);
-            color: var(--netflix-black);
+            background-color: var(--lighter);
+            color: var(--dark);
         }
         
         .btn-play:hover {
-            background-color: rgba(255, 255, 255, 0.75);
+            background-color: rgba(255, 255, 255, 0.85);
         }
         
         .btn-info {
             background-color: rgba(109, 109, 110, 0.7);
-            color: var(--netflix-white);
+            color: var(--lighter);
         }
         
         .btn-info:hover {
@@ -194,6 +211,14 @@
             font-size: 1.4rem;
             margin-bottom: 15px;
             font-weight: 600;
+            color: var(--lighter);
+            display: flex;
+            align-items: center;
+        }
+        
+        .row-title i {
+            margin-right: 10px;
+            color: var(--primary);
         }
         
         .row-content {
@@ -261,7 +286,7 @@
         .carousel-item-meta {
             display: flex;
             font-size: 0.8rem;
-            color: var(--netflix-gray);
+            color: var(--light);
         }
         
         .carousel-item-meta span {
@@ -281,6 +306,7 @@
             opacity: 0;
             transition: opacity 0.3s;
             z-index: 5;
+            color: var(--lighter);
         }
         
         .row-content:hover .carousel-nav {
@@ -295,7 +321,47 @@
             right: 0;
         }
         
-        /* Search Box */
+        /* Search Section */
+        .search-section {
+            background-color: var(--darker);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .search-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--lighter);
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .search-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .search-option {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+            color: var(--lighter);
+        }
+        
+        .search-option.active {
+            background: var(--primary);
+        }
+        
         .search-box {
             display: flex;
             margin-bottom: 20px;
@@ -308,7 +374,7 @@
             border-radius: 4px;
             border: none;
             background: rgba(255, 255, 255, 0.1);
-            color: var(--netflix-white);
+            color: var(--lighter);
             font-size: 1rem;
         }
         
@@ -319,6 +385,56 @@
         
         .search-box button {
             padding: 0 20px;
+            background: var(--primary);
+            color: var(--lighter);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: var(--primary-dark);
+        }
+        
+        .playlist-input {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .playlist-input textarea {
+            padding: 12px 16px;
+            border-radius: 4px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--lighter);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .playlist-input textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .playlist-example {
+            font-size: 0.8rem;
+            color: var(--light);
+            margin-top: 5px;
+        }
+        
+        /* Related Videos */
+        .related-videos {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .related-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--lighter);
         }
         
         /* Modal de Vídeo */
@@ -342,10 +458,11 @@
         .modal-content {
             width: 80%;
             max-width: 900px;
-            background: var(--netflix-dark);
+            background: var(--darker);
             border-radius: 8px;
             overflow: hidden;
             position: relative;
+            border: 1px solid var(--primary);
         }
         
         .modal-header {
@@ -353,18 +470,19 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--netflix-black);
+            background: var(--dark);
         }
         
         .modal-title {
             font-size: 1.2rem;
             font-weight: 600;
+            color: var(--lighter);
         }
         
         .close-modal {
             background: none;
             border: none;
-            color: var(--netflix-white);
+            color: var(--lighter);
             font-size: 1.5rem;
             cursor: pointer;
         }
@@ -390,13 +508,14 @@
             justify-content: center;
             align-items: center;
             height: 300px;
-            color: var(--netflix-gray);
+            color: var(--light);
         }
         
         .loading i {
             font-size: 2rem;
             margin-right: 10px;
             animation: spin 1s linear infinite;
+            color: var(--primary);
         }
         
         @keyframes spin {
@@ -407,8 +526,9 @@
         /* Footer */
         footer {
             padding: 40px;
-            color: var(--netflix-gray);
+            color: var(--light);
             margin-top: 40px;
+            background: var(--darker);
         }
         
         .footer-content {
@@ -422,14 +542,14 @@
         }
         
         .social-links a {
-            color: var(--netflix-gray);
+            color: var(--light);
             margin-right: 15px;
             font-size: 1.5rem;
             transition: color 0.3s;
         }
         
         .social-links a:hover {
-            color: var(--netflix-white);
+            color: var(--primary);
         }
         
         .footer-links {
@@ -440,7 +560,7 @@
         }
         
         .footer-links a {
-            color: var(--netflix-gray);
+            color: var(--light);
             text-decoration: none;
             font-size: 0.9rem;
             margin-bottom: 10px;
@@ -449,13 +569,14 @@
         }
         
         .footer-links a:hover {
-            color: var(--netflix-white);
+            color: var(--primary);
             text-decoration: underline;
         }
         
         .copyright {
             font-size: 0.9rem;
             margin-top: 20px;
+            text-align: center;
         }
         
         /* Responsive */
@@ -498,6 +619,10 @@
             .search-box {
                 flex-direction: column;
             }
+            
+            .search-options {
+                flex-wrap: wrap;
+            }
         }
         
         @media (max-width: 480px) {
@@ -526,19 +651,19 @@
 <body>
     <!-- Header -->
     <header id="header">
-        <a href="#" class="logo">NETFLIX</a>
+        <a href="#" class="logo"><i class="fas fa-brain"></i>FilosoFlix</a>
         
         <ul class="nav-links">
             <li><a href="#" class="active">Início</a></li>
-            <li><a href="#">Séries</a></li>
-            <li><a href="#">Filmes</a></li>
-            <li><a href="#">Bombando</a></li>
+            <li><a href="#">Filósofos</a></li>
+            <li><a href="#">Documentários</a></li>
+            <li><a href="#">Aulas</a></li>
             <li><a href="#">Minha lista</a></li>
         </ul>
         
         <div class="nav-icons">
             <i class="fas fa-search"></i>
-            <i class="fas fa-bell"></i>
+            <i class="fas fa-bookmark"></i>
             <div class="user-profile">
                 <i class="fas fa-user"></i>
             </div>
@@ -548,78 +673,78 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-logo">Round 6</div>
+            <div class="hero-logo">Filosofia Contemporânea</div>
             <div class="hero-info">
-                <span class="match">98% relevante</span>
-                <span>2021</span>
-                <span>18+</span>
-                <span>1 Temporada</span>
+                <span class="match"><i class="fas fa-star"></i> 98% relevante</span>
+                <span><i class="fas fa-calendar"></i> 2023</span>
+                <span><i class="fas fa-tag"></i> Filosofia</span>
+                <span><i class="fas fa-list"></i> 1 Temporada</span>
             </div>
             <p class="hero-description">
-                Centenas de participantes carentes de dinheiro aceitam um convite para competir em jogos infantis por um prêmio tentador. Mas as apostas são mortais.
+                Uma jornada pelos principais pensadores e correntes filosóficas da contemporaneidade. 
+                Explore as ideias que moldam nosso tempo e desafiam nossas concepções de realidade, ética e existência.
             </p>
             <div class="hero-buttons">
-                <button class="btn btn-play" onclick="showTrailer('Round 6', '6O6i7vNVXak')"><i class="fas fa-play"></i> Assistir</button>
-                <button class="btn btn-info"><i class="fas fa-info-circle"></i> Mais informações</button>
+                <button class="btn btn-play" onclick="showTrailer('Filosofia Contemporânea', '5MgBikgcWnY')">
+                    <i class="fas fa-play"></i> Assistir
+                </button>
+                <button class="btn btn-info" onclick="showRelatedVideos('filosofia contemporânea')">
+                    <i class="fas fa-info-circle"></i> Mais Informações
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Content Rows -->
     <section class="content">
-        <!-- Populares -->
+        <!-- Playlist de Filosofia -->
         <div class="row">
-            <h2 class="row-title">Populares na Netflix</h2>
+            <h2 class="row-title"><i class="fas fa-list"></i> Playlist de Filosofia</h2>
             <div class="row-content">
                 <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
-                <div class="carousel" id="carousel1">
-                    <div class="carousel-item" onclick="showTrailer('Stranger Things', 'b9EkMc79ZSU')">
-                        <img src="https://i.ytimg.com/vi/b9EkMc79ZSU/maxresdefault.jpg" alt="Stranger Things">
+                <div class="carousel" id="philosophy-playlist">
+                    <div class="carousel-item" onclick="showTrailer('Filosofia Grega - Sócrates, Platão e Aristóteles', 'K4QHzbRV1d0')">
+                        <img src="https://i.ytimg.com/vi/K4QHzbRV1d0/maxresdefault.jpg" alt="Filosofia Grega">
                         <div class="carousel-item-info">
-                            <div class="carousel-item-title">Stranger Things</div>
+                            <div class="carousel-item-title">Filosofia Grega - Sócrates, Platão e Aristóteles</div>
                             <div class="carousel-item-meta">
-                                <span>98% relevante</span>
-                                <span>4 temporadas</span>
+                                <span><i class="fas fa-clock"></i> 25 min</span>
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item" onclick="showTrailer('La Casa de Papel', 'hMANIarjT50')">
-                        <img src="https://i.ytimg.com/vi/hMANIarjT50/maxresdefault.jpg" alt="La Casa de Papel">
+                    <div class="carousel-item" onclick="showTrailer('Nietzsche - Além do Bem e do Mal', 'AmvV7eMPL5E')">
+                        <img src="https://i.ytimg.com/vi/AmvV7eMPL5E/maxresdefault.jpg" alt="Nietzsche">
                         <div class="carousel-item-info">
-                            <div class="carousel-item-title">La Casa de Papel</div>
+                            <div class="carousel-item-title">Nietzsche - Além do Bem e do Mal</div>
                             <div class="carousel-item-meta">
-                                <span>95% relevante</span>
-                                <span>5 temporadas</span>
+                                <span><i class="fas fa-clock"></i> 32 min</span>
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item" onclick="showTrailer('The Witcher', 'ndl1W4ltcmg')">
-                        <img src="https://i.ytimg.com/vi/ndl1W4ltcmg/maxresdefault.jpg" alt="The Witcher">
+                    <div class="carousel-item" onclick="showTrailer('Existencialismo - Sartre e Camus', 'YaDvRdLMkHs')">
+                        <img src="https://i.ytimg.com/vi/YaDvRdLMkHs/maxresdefault.jpg" alt="Existencialismo">
                         <div class="carousel-item-info">
-                            <div class="carousel-item-title">The Witcher</div>
+                            <div class="carousel-item-title">Existencialismo - Sartre e Camus</div>
                             <div class="carousel-item-meta">
-                                <span>92% relevante</span>
-                                <span>2 temporadas</span>
+                                <span><i class="fas fa-clock"></i> 28 min</span>
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item" onclick="showTrailer('Bridgerton', 'gpv7ayf_tyE')">
-                        <img src="https://i.ytimg.com/vi/gpv7ayf_tyE/maxresdefault.jpg" alt="Bridgerton">
+                    <div class="carousel-item" onclick="showTrailer('Filosofia Oriental - Budismo e Taoismo', 'Hm2SH6sgG6c')">
+                        <img src="https://i.ytimg.com/vi/Hm2SH6sgG6c/maxresdefault.jpg" alt="Filosofia Oriental">
                         <div class="carousel-item-info">
-                            <div class="carousel-item-title">Bridgerton</div>
+                            <div class="carousel-item-title">Filosofia Oriental - Budismo e Taoismo</div>
                             <div class="carousel-item-meta">
-                                <span>93% relevante</span>
-                                <span>2 temporadas</span>
+                                <span><i class="fas fa-clock"></i> 35 min</span>
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item" onclick="showTrailer('Lupin', 'ga0iTW58CGc')">
-                        <img src="https://i.ytimg.com/vi/ga0iTW58CGc/maxresdefault.jpg" alt="Lupin">
+                    <div class="carousel-item" onclick="showTrailer('Filosofia da Ciência - Kuhn e Popper', 'pTlOCEQ0lIw')">
+                        <img src="https://i.ytimg.com/vi/pTlOCEQ0lIw/maxresdefault.jpg" alt="Filosofia da Ciência">
                         <div class="carousel-item-info">
-                            <div class="carousel-item-title">Lupin</div>
+                            <div class="carousel-item-title">Filosofia da Ciência - Kuhn e Popper</div>
                             <div class="carousel-item-meta">
-                                <span>97% relevante</span>
-                                <span>2 temporadas</span>
+                                <span><i class="fas fa-clock"></i> 30 min</span>
                             </div>
                         </div>
                     </div>
@@ -628,80 +753,109 @@
             </div>
         </div>
 
-        <!-- Em Alta -->
-        <div class="row">
-            <h2 class="row-title">Em Alta</h2>
-            <div class="row-content">
-                <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
-                <div class="carousel" id="carousel2">
-                    <div class="carousel-item" onclick="showTrailer('Round 6', '6O6i7vNVXak')">
-                        <img src="https://i.ytimg.com/vi/6O6i7vNVXak/maxresdefault.jpg" alt="Round 6">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Round 6</div>
-                            <div class="carousel-item-meta">
-                                <span>98% relevante</span>
-                                <span>1 temporada</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Narcos', 'x7fXhW7jaRc')">
-                        <img src="https://i.ytimg.com/vi/x7fXhW7jaRc/maxresdefault.jpg" alt="Narcos">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Narcos</div>
-                            <div class="carousel-item-meta">
-                                <span>94% relevante</span>
-                                <span>3 temporadas</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Ozark', '5hAX3q2eC0k')">
-                        <img src="https://i.ytimg.com/vi/5hAX3q2eC0k/maxresdefault.jpg" alt="Ozark">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Ozark</div>
-                            <div class="carousel-item-meta">
-                                <span>93% relevante</span>
-                                <span>4 temporadas</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Black Mirror', 'jDiYGjp5fFU')">
-                        <img src="https://i.ytimg.com/vi/jDiYGjp5fFU/maxresdefault.jpg" alt="Black Mirror">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Black Mirror</div>
-                            <div class="carousel-item-meta">
-                                <span>92% relevante</span>
-                                <span>5 temporadas</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('The Queen\'s Gambit', 'CDrieqwSdgI')">
-                        <img src="https://i.ytimg.com/vi/CDrieqwSdgI/maxresdefault.jpg" alt="The Queen's Gambit">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">The Queen's Gambit</div>
-                            <div class="carousel-item-meta">
-                                <span>97% relevante</span>
-                                <span>1 temporada</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2 class="search-title"><i class="fas fa-search"></i> Descobrir Conteúdo</h2>
+            
+            <div class="search-options">
+                <div class="search-option active" data-type="search">Buscar por Palavras</div>
+                <div class="search-option" data-type="playlist">Carregar Playlist</div>
             </div>
-        </div>
-
-        <!-- Buscar Conteúdo do YouTube -->
-        <div class="row">
-            <h2 class="row-title">Buscar no YouTube</h2>
-            <div class="search-box">
-                <input type="text" id="youtube-search" placeholder="Buscar filmes, séries, documentários...">
+            
+            <div class="search-box" id="search-box">
+                <input type="text" id="youtube-search" placeholder="Buscar por filósofos, conceitos, escolas...">
                 <button class="btn btn-primary" onclick="searchYouTube()"><i class="fas fa-search"></i> Buscar</button>
             </div>
+            
+            <div class="playlist-input" id="playlist-input">
+                <textarea id="playlist-urls" placeholder="Cole aqui os URLs ou IDs dos vídeos do YouTube (um por linha)&#10;Exemplo:&#10;https://www.youtube.com/watch?v=abcdefghijk&#10;https://youtu.be/abcdefghijk&#10;abcdefghijk"></textarea>
+                <button class="btn btn-primary" onclick="loadPlaylist()"><i class="fas fa-play-circle"></i> Carregar Playlist</button>
+                <div class="playlist-example">Você pode colar URLs completos do YouTube, links curtos ou apenas os IDs dos vídeos</div>
+            </div>
+        </div>
+
+        <!-- Related Videos -->
+        <div class="related-videos" id="related-videos">
+            <h3 class="related-title">Conteúdo Similar</h3>
+            <div class="row-content">
+                <div class="carousel" id="related-results">
+                    <!-- Conteúdo relacionado será inserido aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Filósofos em Destaque -->
+        <div class="row">
+            <h2 class="row-title"><i class="fas fa-users"></i> Filósofos em Destaque</h2>
+            <div class="row-content">
+                <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
+                <div class="carousel" id="featured-philosophers">
+                    <div class="carousel-item" onclick="showTrailer('Platão - A Teoria das Ideias', '2wgB-9x2PRQ')">
+                        <img src="https://i.ytimg.com/vi/2wgB-9x2PRQ/maxresdefault.jpg" alt="Platão">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Platão - A Teoria das Ideias</div>
+                            <div class="carousel-item-meta">
+                                <span>Filosofia Antiga</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showTrailer('Kant - O Imperativo Categórico', 'xsI9EcyTFUY')">
+                        <img src="https://i.ytimg.com/vi/xsI9EcyTFUY/maxresdefault.jpg" alt="Kant">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Kant - O Imperativo Categórico</div>
+                            <div class="carousel-item-meta">
+                                <span>Iluminismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showTrailer('Foucault - Vigiar e Punir', 'h2ev_KMieC4')">
+                        <img src="https://i.ytimg.com/vi/h2ev_KMieC4/maxresdefault.jpg" alt="Foucault">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Foucault - Vigiar e Punir</div>
+                            <div class="carousel-item-meta">
+                                <span>Pós-estruturalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showTrailer('Hannah Arendt - A Banalidade do Mal', 'X2LZhq-kokc')">
+                        <img src="https://i.ytimg.com/vi/X2LZhq-kokc/maxresdefault.jpg" alt="Hannah Arendt">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Hannah Arendt - A Banalidade do Mal</div>
+                            <div class="carousel-item-meta">
+                                <span>Filosofia Política</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showTrailer('Spinoza - Ética e Liberdade', 'D1Z4s-9-w-M')">
+                        <img src="https://i.ytimg.com/vi/D1Z4s-9-w-M/maxresdefault.jpg" alt="Spinoza">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Spinoza - Ética e Liberdade</div>
+                            <div class="carousel-item-meta">
+                                <span>Rationalismo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Resultados da Busca -->
+        <div class="row" id="search-results-row" style="display: none;">
+            <h2 class="row-title"><i class="fas fa-search"></i> Resultados da Busca</h2>
             <div class="row-content">
                 <div class="carousel" id="youtube-results">
-                    <div class="loading">
-                        <i class="fas fa-film"></i>
-                        <span>Use a busca acima para encontrar conteúdo</span>
-                    </div>
+                    <!-- Resultados da busca serão inseridos aqui -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Playlist Carregada -->
+        <div class="row" id="playlist-results-row" style="display: none;">
+            <h2 class="row-title"><i class="fas fa-list"></i> Sua Playlist</h2>
+            <div class="row-content">
+                <div class="carousel" id="playlist-results">
+                    <!-- Playlist será inserida aqui -->
                 </div>
             </div>
         </div>
@@ -711,7 +865,7 @@
     <div class="video-modal" id="videoModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Assistir Trailer</div>
+                <div class="modal-title" id="modalTitle">Assistir Video</div>
                 <button class="close-modal" onclick="closeModal()">&times;</button>
             </div>
             <div class="video-container">
@@ -731,24 +885,23 @@
             </div>
             
             <div class="footer-links">
-                <a href="#">Idioma e legendas</a>
-                <a href="#">Audiodescrição</a>
-                <a href="#">Centro de ajuda</a>
-                <a href="#">Cartão pré-pago</a>
-                <a href="#">Imprensa</a>
-                <a href="#">Relação com investidores</a>
-                <a href="#">Carreiras</a>
+                <a href="#">Filósofos</a>
+                <a href="#">Escolas Filosóficas</a>
+                <a href="#">Períodos Históricos</a>
+                <a href="#">Conceitos</a>
+                <a href="#">Documentários</a>
+                <a href="#">Aulas</a>
+                <a href="#">Livros</a>
+                <a href="#">Artigos</a>
                 <a href="#">Termos de uso</a>
                 <a href="#">Privacidade</a>
-                <a href="#">Avisos legais</a>
-                <a href="#">Preferências de cookies</a>
-                <a href="#">Informações corporativas</a>
-                <a href="#">Entre em contato</a>
+                <a href="#">Contato</a>
+                <a href="#">Sobre</a>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2023 Netflix Clone. Este é um projeto demonstrativo, não affiliated com a Netflix.</p>
-                <p>Conteúdo fornecido pela API do YouTube.</p>
+                <p>&copy; 2023 FilosoFlix. Plataforma educativa de conteúdo filosófico.</p>
+                <p>Conteúdo fornecido pela API do YouTube para fins educacionais.</p>
             </div>
         </div>
     </footer>
@@ -756,6 +909,10 @@
     <script>
         // Sua chave de API do YouTube
         const YOUTUBE_API_KEY = 'AIzaSyA-dAUhwbwPzPrG6q9tJj-_fsh7HNQssPM';
+        
+        // Variáveis para controle de estado
+        let currentVideoId = '';
+        let currentVideoTitle = '';
         
         document.addEventListener('DOMContentLoaded', function() {
             // Header scroll effect
@@ -789,6 +946,23 @@
                     searchYouTube();
                 }
             });
+            
+            // Alternar entre busca e playlist
+            document.querySelectorAll('.search-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.search-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const type = this.getAttribute('data-type');
+                    if (type === 'search') {
+                        document.getElementById('search-box').style.display = 'flex';
+                        document.getElementById('playlist-input').style.display = 'none';
+                    } else {
+                        document.getElementById('search-box').style.display = 'none';
+                        document.getElementById('playlist-input').style.display = 'flex';
+                    }
+                });
+            });
         });
         
         // Função para mostrar trailer
@@ -797,9 +971,17 @@
             const frame = document.getElementById('videoFrame');
             const modalTitle = document.getElementById('modalTitle');
             
+            currentVideoId = videoId;
+            currentVideoTitle = title;
+            
             modalTitle.textContent = title;
             frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
             modal.classList.add('active');
+            
+            // Buscar vídeos relacionados após um breve delay
+            setTimeout(() => {
+                showRelatedVideos(title);
+            }, 1000);
         }
         
         // Fechar modal
@@ -827,15 +1009,19 @@
             resultsContainer.innerHTML = `
                 <div class="loading">
                     <i class="fas fa-spinner"></i>
-                    <span>Buscando conteúdo...</span>
+                    <span>Buscando conteúdo filosófico...</span>
                 </div>
             `;
             
+            // Mostrar a seção de resultados
+            document.getElementById('search-results-row').style.display = 'block';
+            document.getElementById('playlist-results-row').style.display = 'none';
+            
             // Fazer requisição para a API do YouTube
-            fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(query + ' trailer')}&type=video&key=${YOUTUBE_API_KEY}`)
+            fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query + ' filosofia')}&type=video&key=${YOUTUBE_API_KEY}`)
                 .then(response => response.json())
                 .then(data => {
-                    displayYouTubeResults(data.items);
+                    displayYouTubeResults(data.items, 'youtube-results');
                 })
                 .catch(error => {
                     console.error('Erro ao buscar no YouTube:', error);
@@ -848,15 +1034,137 @@
                 });
         }
         
-        // Exibir resultados da busca do YouTube
-        function displayYouTubeResults(videos) {
-            const resultsContainer = document.getElementById('youtube-results');
+        // Carregar playlist
+        function loadPlaylist() {
+            const playlistText = document.getElementById('playlist-urls').value.trim();
+            if (!playlistText) return;
+            
+            // Extrair IDs de vídeo do texto
+            const lines = playlistText.split('\n');
+            const videoIds = [];
+            
+            lines.forEach(line => {
+                line = line.trim();
+                if (!line) return;
+                
+                // Extrair ID de diferentes formatos de URL do YouTube
+                let videoId = null;
+                
+                if (line.includes('youtube.com/watch?v=')) {
+                    videoId = line.split('v=')[1];
+                    const ampersandPosition = videoId.indexOf('&');
+                    if (ampersandPosition !== -1) {
+                        videoId = videoId.substring(0, ampersandPosition);
+                    }
+                } else if (line.includes('youtu.be/')) {
+                    videoId = line.split('youtu.be/')[1];
+                    const questionMarkPosition = videoId.indexOf('?');
+                    if (questionMarkPosition !== -1) {
+                        videoId = videoId.substring(0, questionMarkPosition);
+                    }
+                } else if (line.length === 11) {
+                    // Assume que é um ID direto (IDs do YouTube têm 11 caracteres)
+                    videoId = line;
+                }
+                
+                if (videoId && videoId.length === 11) {
+                    videoIds.push(videoId);
+                }
+            });
+            
+            if (videoIds.length === 0) {
+                alert('Nenhum ID de vídeo válido encontrado. Verifique o formato dos URLs.');
+                return;
+            }
+            
+            const resultsContainer = document.getElementById('playlist-results');
+            resultsContainer.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <span>Carregando sua playlist filosófica...</span>
+                </div>
+            `;
+            
+            // Mostrar a seção de playlist
+            document.getElementById('playlist-results-row').style.display = 'block';
+            document.getElementById('search-results-row').style.display = 'none';
+            
+            // Buscar detalhes dos vídeos
+            fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds.join(',')}&key=${YOUTUBE_API_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayYouTubeResults(data.items, 'playlist-results');
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar playlist:', error);
+                    resultsContainer.innerHTML = `
+                        <div class="loading">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Erro ao carregar playlist. Tente novamente.</span>
+                        </div>
+                    `;
+                });
+        }
+        
+        // Mostrar vídeos relacionados
+        function showRelatedVideos(title) {
+            const relatedContainer = document.getElementById('related-results');
+            const relatedSection = document.getElementById('related-videos');
+            
+            relatedContainer.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <span>Buscando conteúdo filosófico similar...</span>
+                </div>
+            `;
+            
+            relatedSection.style.display = 'block';
+            
+            // Buscar vídeos relacionados
+            if (currentVideoId) {
+                // Busca por vídeos relacionados ao vídeo atual
+                fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&relatedToVideoId=${currentVideoId}&type=video&key=${YOUTUBE_API_KEY}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displayYouTubeResults(data.items, 'related-results');
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar vídeos relacionados:', error);
+                        relatedContainer.innerHTML = `
+                            <div class="loading">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Erro ao buscar conteúdo similar.</span>
+                            </div>
+                        `;
+                    });
+            } else {
+                // Busca genérica baseada no título
+                fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(title + ' filosofia')}&type=video&key=${YOUTUBE_API_KEY}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        displayYouTubeResults(data.items, 'related-results');
+                    })
+                    .catch(error => {
+                        console.error('Erro ao buscar vídeos relacionados:', error);
+                        relatedContainer.innerHTML = `
+                            <div class="loading">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Erro ao buscar conteúdo similar.</span>
+                            </div>
+                        `;
+                    });
+            }
+        }
+        
+        // Exibir resultados do YouTube
+        function displayYouTubeResults(videos, containerId) {
+            const resultsContainer = document.getElementById(containerId);
             
             if (!videos || videos.length === 0) {
                 resultsContainer.innerHTML = `
                     <div class="loading">
                         <i class="fas fa-exclamation-circle"></i>
-                        <span>Nenhum resultado encontrado.</span>
+                        <span>Nenhum conteúdo filosófico encontrado.</span>
                     </div>
                 `;
                 return;
@@ -865,9 +1173,10 @@
             resultsContainer.innerHTML = '';
             
             videos.forEach(video => {
+                const videoId = video.id.videoId || video.id;
                 const videoItem = document.createElement('div');
                 videoItem.className = 'carousel-item';
-                videoItem.onclick = () => showTrailer(video.snippet.title, video.id.videoId);
+                videoItem.onclick = () => showTrailer(video.snippet.title, videoId);
                 
                 // Usar thumbnail de alta qualidade quando disponível
                 const thumbnail = video.snippet.thumbnails.maxres || 
