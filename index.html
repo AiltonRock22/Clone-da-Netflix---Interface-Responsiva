@@ -578,6 +578,16 @@
             margin-top: 20px;
             text-align: center;
         }
+
+        /* Mensagem de erro */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: none;
+        }
         
         /* Responsive */
         @media (max-width: 960px) {
@@ -697,57 +707,19 @@
 
     <!-- Content Rows -->
     <section class="content">
+        <!-- Mensagem de erro -->
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText"></span>
+        </div>
+
         <!-- Playlist de Filosofia -->
         <div class="row">
             <h2 class="row-title"><i class="fas fa-list"></i> Playlist de Filosofia</h2>
             <div class="row-content">
                 <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
                 <div class="carousel" id="philosophy-playlist">
-                    <div class="carousel-item" onclick="showTrailer('Filosofia Grega - Sócrates, Platão e Aristóteles', 'K4QHzbRV1d0')">
-                        <img src="https://i.ytimg.com/vi/K4QHzbRV1d0/maxresdefault.jpg" alt="Filosofia Grega">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Filosofia Grega - Sócrates, Platão e Aristóteles</div>
-                            <div class="carousel-item-meta">
-                                <span><i class="fas fa-clock"></i> 25 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Nietzsche - Além do Bem e do Mal', 'AmvV7eMPL5E')">
-                        <img src="https://i.ytimg.com/vi/AmvV7eMPL5E/maxresdefault.jpg" alt="Nietzsche">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Nietzsche - Além do Bem e do Mal</div>
-                            <div class="carousel-item-meta">
-                                <span><i class="fas fa-clock"></i> 32 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Existencialismo - Sartre e Camus', 'YaDvRdLMkHs')">
-                        <img src="https://i.ytimg.com/vi/YaDvRdLMkHs/maxresdefault.jpg" alt="Existencialismo">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Existencialismo - Sartre e Camus</div>
-                            <div class="carousel-item-meta">
-                                <span><i class="fas fa-clock"></i> 28 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Filosofia Oriental - Budismo e Taoismo', 'Hm2SH6sgG6c')">
-                        <img src="https://i.ytimg.com/vi/Hm2SH6sgG6c/maxresdefault.jpg" alt="Filosofia Oriental">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Filosofia Oriental - Budismo e Taoismo</div>
-                            <div class="carousel-item-meta">
-                                <span><i class="fas fa-clock"></i> 35 min</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Filosofia da Ciência - Kuhn e Popper', 'pTlOCEQ0lIw')">
-                        <img src="https://i.ytimg.com/vi/pTlOCEQ0lIw/maxresdefault.jpg" alt="Filosofia da Ciência">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Filosofia da Ciência - Kuhn e Popper</div>
-                            <div class="carousel-item-meta">
-                                <span><i class="fas fa-clock"></i> 30 min</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Os vídeos serão carregados via JavaScript -->
                 </div>
                 <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
             </div>
@@ -790,51 +762,7 @@
             <div class="row-content">
                 <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
                 <div class="carousel" id="featured-philosophers">
-                    <div class="carousel-item" onclick="showTrailer('Platão - A Teoria das Ideias', '2wgB-9x2PRQ')">
-                        <img src="https://i.ytimg.com/vi/2wgB-9x2PRQ/maxresdefault.jpg" alt="Platão">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Platão - A Teoria das Ideias</div>
-                            <div class="carousel-item-meta">
-                                <span>Filosofia Antiga</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Kant - O Imperativo Categórico', 'xsI9EcyTFUY')">
-                        <img src="https://i.ytimg.com/vi/xsI9EcyTFUY/maxresdefault.jpg" alt="Kant">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Kant - O Imperativo Categórico</div>
-                            <div class="carousel-item-meta">
-                                <span>Iluminismo</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Foucault - Vigiar e Punir', 'h2ev_KMieC4')">
-                        <img src="https://i.ytimg.com/vi/h2ev_KMieC4/maxresdefault.jpg" alt="Foucault">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Foucault - Vigiar e Punir</div>
-                            <div class="carousel-item-meta">
-                                <span>Pós-estruturalismo</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Hannah Arendt - A Banalidade do Mal', 'X2LZhq-kokc')">
-                        <img src="https://i.ytimg.com/vi/X2LZhq-kokc/maxresdefault.jpg" alt="Hannah Arendt">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Hannah Arendt - A Banalidade do Mal</div>
-                            <div class="carousel-item-meta">
-                                <span>Filosofia Política</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item" onclick="showTrailer('Spinoza - Ética e Liberdade', 'D1Z4s-9-w-M')">
-                        <img src="https://i.ytimg.com/vi/D1Z4s-9-w-M/maxresdefault.jpg" alt="Spinoza">
-                        <div class="carousel-item-info">
-                            <div class="carousel-item-title">Spinoza - Ética e Liberdade</div>
-                            <div class="carousel-item-meta">
-                                <span>Rationalismo</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Os vídeos serão carregados via JavaScript -->
                 </div>
                 <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
             </div>
@@ -914,6 +842,21 @@
         let currentVideoId = '';
         let currentVideoTitle = '';
         
+        // IDs de vídeos de filosofia que funcionam (substitua por IDs válidos)
+        const workingVideoIds = [
+            '5MgBikgcWnY', // Filosofia Contemporânea
+            'K4QHzbRV1d0', // Filosofia Grega
+            'AmvV7eMPL5E', // Nietzsche
+            'YaDvRdLMkHs', // Existencialismo
+            'Hm2SH6sgG6c', // Filosofia Oriental
+            'pTlOCEQ0lIw', // Filosofia da Ciência
+            '2wgB-9x2PRQ', // Platão
+            'xsI9EcyTFUY', // Kant
+            'h2ev_KMieC4', // Foucault
+            'X2LZhq-kokc', // Hannah Arendt
+            'D1Z4s-9-w-M'  // Spinoza
+        ];
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Header scroll effect
             const header = document.getElementById('header');
@@ -963,7 +906,38 @@
                     }
                 });
             });
+            
+            // Carregar playlists iniciais
+            loadInitialPlaylists();
         });
+        
+        // Carregar playlists iniciais
+        function loadInitialPlaylists() {
+            // Carregar playlist de filosofia
+            fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${workingVideoIds.join(',')}&key=${YOUTUBE_API_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayYouTubeResults(data.items, 'philosophy-playlist');
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar playlist de filosofia:', error);
+                    showError('Erro ao carregar conteúdo. Verifique sua conexão e tente novamente.');
+                });
+        }
+        
+        // Mostrar mensagem de erro
+        function showError(message) {
+            const errorElement = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            errorText.textContent = message;
+            errorElement.style.display = 'block';
+            
+            // Ocultar a mensagem após 5 segundos
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
         
         // Função para mostrar trailer
         function showTrailer(title, videoId) {
@@ -975,13 +949,48 @@
             currentVideoTitle = title;
             
             modalTitle.textContent = title;
-            frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+            
+            // Verificar se o vídeo está disponível
+            checkVideoAvailability(videoId).then(isAvailable => {
+                if (isAvailable) {
+                    frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+                } else {
+                    frame.src = `https://www.youtube.com/embed/${workingVideoIds[0]}?autoplay=1&enablejsapi=1`;
+                    showError('Este vídeo não está disponível. Redirecionando para conteúdo similar.');
+                }
+            }).catch(error => {
+                console.error('Erro ao verificar disponibilidade do vídeo:', error);
+                frame.src = `https://www.youtube.com/embed/${workingVideoIds[0]}?autoplay=1&enablejsapi=1`;
+                showError('Erro ao carregar o vídeo. Redirecionando para conteúdo alternativo.');
+            });
+            
             modal.classList.add('active');
             
             // Buscar vídeos relacionados após um breve delay
             setTimeout(() => {
                 showRelatedVideos(title);
             }, 1000);
+        }
+        
+        // Verificar disponibilidade do vídeo
+        async function checkVideoAvailability(videoId) {
+            try {
+                const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoId}&key=${YOUTUBE_API_KEY}`);
+                const data = await response.json();
+                
+                if (data.items && data.items.length > 0) {
+                    const uploadStatus = data.items[0].status.uploadStatus;
+                    const privacyStatus = data.items[0].status.privacyStatus;
+                    const embeddable = data.items[0].status.embeddable;
+                    
+                    return uploadStatus === 'processed' && privacyStatus === 'public' && embeddable;
+                }
+                
+                return false;
+            } catch (error) {
+                console.error('Erro ao verificar disponibilidade:', error);
+                return false;
+            }
         }
         
         // Fechar modal
@@ -1031,6 +1040,7 @@
                             <span>Erro ao buscar conteúdo. Tente novamente.</span>
                         </div>
                     `;
+                    showError('Erro de conexão. Verifique sua internet e tente novamente.');
                 });
         }
         
@@ -1073,7 +1083,7 @@
             });
             
             if (videoIds.length === 0) {
-                alert('Nenhum ID de vídeo válido encontrado. Verifique o formato dos URLs.');
+                showError('Nenhum ID de vídeo válido encontrado. Verifique o formato dos URLs.');
                 return;
             }
             
@@ -1103,6 +1113,7 @@
                             <span>Erro ao carregar playlist. Tente novamente.</span>
                         </div>
                     `;
+                    showError('Erro ao carregar a playlist. Verifique os IDs dos vídeos.');
                 });
         }
         
