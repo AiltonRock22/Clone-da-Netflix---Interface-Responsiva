@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone com Integração Google Drive</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --netflix-red: #e50914;
+            --netflix-black: #141414;
+            --netflix-dark: #181818;
+            --netflix-gray: #b3b3b3;
+            --netflix-white: #ffffff;
+        }
+        
+        body {
+            background-color: var(--netflix-black);
+            color: var(--netflix-white);
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            transition: background-color 0.3s;
+        }
+        
+        header.scrolled {
+            background-color: var(--netflix-black);
+        }
+        
+        .logo {
+            color: var(--netflix-red);
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: var(--netflix-white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--netflix-gray);
+        }
+        
+        .nav-icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-icons i {
+            margin-left: 20px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .user-profile {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            background-color: var(--netflix-red);
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(to top, var(--netflix-black) 0%, transparent 50%), 
+                        url('https://source.unsplash.com/random/1600x900/?movie') no-repeat center center/cover;
+            display: flex;
+            align-items: flex-end;
+            padding: 0 40px 100px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content {
+            max-width: 600px;
+        }
+        
+        .hero-logo {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--netflix-white);
+        }
+        
+        .hero-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .hero-info span {
+            margin-right: 15px;
+        }
+        
+        .match {
+            color: #46d369;
+            font-weight: 600;
+        }
+        
+        .hero-description {
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: var(--netflix-gray);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-play {
+            background-color: var(--netflix-white);
+            color: var(--netflix-black);
+        }
+        
+        .btn-play:hover {
+            background-color: rgba(255, 255, 255, 0.75);
+        }
+        
+        .btn-info {
+            background-color: rgba(109, 109, 110, 0.7);
+            color: var(--netflix-white);
+        }
+        
+        .btn-info:hover {
+            background-color: rgba(109, 109, 110, 0.5);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* Content Rows */
+        .content {
+            padding: 0 40px 40px;
+        }
+        
+        .row {
+            margin-bottom: 40px;
+        }
+        
+        .row-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .row-content {
+            position: relative;
+        }
+        
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 10px 0;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .carousel::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+        
+        .carousel-item {
+            flex: 0 0 auto;
+            width: 200px;
+            margin-right: 10px;
+            transition: transform 0.3s;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .carousel-item:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+        
+        .carousel-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+            padding: 20px 10px 10px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .carousel-item:hover .carousel-item-info {
+            opacity: 1;
+        }
+        
+        .carousel-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .carousel-item-meta {
+            display: flex;
+            font-size: 0.8rem;
+            color: var(--netflix-gray);
+        }
+        
+        .carousel-item-meta span {
+            margin-right: 10px;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 5;
+        }
+        
+        .row-content:hover .carousel-nav {
+            opacity: 1;
+        }
+        
+        .carousel-nav.left {
+            left: 0;
+        }
+        
+        .carousel-nav.right {
+            right: 0;
+        }
+        
+        /* Modal de Vídeo */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .video-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            width: 80%;
+            max-width: 900px;
+            background: var(--netflix-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--netflix-black);
+        }
+        
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--netflix-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .drive-warning {
+            padding: 20px;
+            text-align: center;
+            background: #f8d7da;
+            color: #721c24;
+            margin: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px;
+            color: var(--netflix-gray);
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            color: var(--netflix-gray);
+            margin-right: 15px;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--netflix-white);
+        }
+        
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: var(--netflix-gray);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--netflix-white);
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 960px) {
+            .footer-links {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 0 20px 60px;
+                height: 70vh;
+            }
+            
+            .content {
+                padding: 0 20px 20px;
+            }
+            
+            .hero-logo {
+                font-size: 2.5rem;
+            }
+            
+            .footer-links {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .hero-info {
+                flex-wrap: wrap;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+            
+            .carousel-item {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="#" class="logo">NETFLIX</a>
+        
+        <ul class="nav-links">
+            <li><a href="#" class="active">Início</a></li>
+            <li><a href="#">Séries</a></li>
+            <li><a href="#">Filmes</a></li>
+            <li><a href="#">Bombando</a></li>
+            <li><a href="#">Minha lista</a></li>
+        </ul>
+        
+        <div class="nav-icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
+            <div class="user-profile">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">Round 6</div>
+            <div class="hero-info">
+                <span class="match">98% relevante</span>
+                <span>2021</span>
+                <span>18+</span>
+                <span>1 Temporada</span>
+            </div>
+            <p class="hero-description">
+                Centenas de participantes carentes de dinheiro aceitam um convite para competir em jogos infantis por um prêmio tentador. Mas as apostas são mortais.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn btn-play" onclick="showDriveWarning()"><i class="fas fa-play"></i> Assistir</button>
+                <button class="btn btn-info"><i class="fas fa-info-circle"></i> Mais informações</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Aviso do Google Drive -->
+    <div class="drive-warning" id="driveWarning">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>O Google Drive não é compatível com reprodução de vídeos diretamente nesta interface. Para uma experiência ideal, recomendamos usar serviços de streaming especializados.</p>
+    </div>
+
+    <!-- Content Rows -->
+    <section class="content">
+        <!-- Populares na Netflix -->
+        <div class="row">
+            <h2 class="row-title">Populares na Netflix</h2>
+            <div class="row-content">
+                <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
+                <div class="carousel" id="carousel1">
+                    <div class="carousel-item" onclick="showDriveWarning()">
+                        <img src="https://source.unsplash.com/random/200x300/?movie,1" alt="Movie 1">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Stranger Things</div>
+                            <div class="carousel-item-meta">
+                                <span>98% relevante</span>
+                                <span>4 temporadas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showDriveWarning()">
+                        <img src="https://source.unsplash.com/random/200x300/?movie,2" alt="Movie 2">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">La Casa de Papel</div>
+                            <div class="carousel-item-meta">
+                                <span>95% relevante</span>
+                                <span>5 temporadas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showTrailer('The Witcher')">
+                        <img src="https://source.unsplash.com/random/200x300/?movie,3" alt="Movie 3">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">The Witcher</div>
+                            <div class="carousel-item-meta">
+                                <span>92% relevante</span>
+                                <span>2 temporadas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" onclick="showTrailer('Bridgerton')">
+                        <img src="https://source.unsplash.com/random/200x300/?movie,4" alt="Movie 4">
+                        <div class="carousel-item-info">
+                            <div class="carousel-item-title">Bridgerton</div>
+                            <div class="carousel-item-meta">
+                                <span>93% relevante</span>
+                                <span>2 temporadas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Vídeo -->
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title" id="modalTitle">Assistir Filme</div>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="video-container">
+                <iframe id="videoFrame" src="" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-links">
+                <a href="#">Idioma e legendas</a>
+                <a href="#">Audiodescrição</a>
+                <a href="#">Centro de ajuda</a>
+                <a href="#">Cartão pré-pago</a>
+                <a href="#">Imprensa</a>
+                <a href="#">Relação com investidores</a>
+                <a href="#">Carreiras</a>
+                <a href="#">Termos de uso</a>
+                <a href="#">Privacidade</a>
+                <a href="#">Avisos legais</a>
+                <a href="#">Preferências de cookies</a>
+                <a href="#">Informações corporativas</a>
+                <a href="#">Entre em contato</a>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Netflix Clone. Este é um projeto demonstrativo, não affiliated com a Netflix.</p>
+                <p>Nota: Esta demonstração não suporta integração real com Google Drive para streaming de vídeo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header scroll effect
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Carousel navigation
+            document.querySelectorAll('.carousel-nav').forEach(nav => {
+                nav.addEventListener('click', function() {
+                    const isLeft = this.classList.contains('left');
+                    const carousel = this.parentElement.querySelector('.carousel');
+                    const scrollAmount = 300;
+                    
+                    if (isLeft) {
+                        carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                    } else {
+                        carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+        
+        // Função para mostrar aviso do Google Drive
+        function showDriveWarning() {
+            const warning = document.getElementById('driveWarning');
+            warning.style.display = 'block';
+            
+            setTimeout(() => {
+                warning.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Função para mostrar trailer do YouTube (demonstração)
+        function showTrailer(title) {
+            const modal = document.getElementById('videoModal');
+            const frame = document.getElementById('videoFrame');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            // Vídeos de exemplo (trailers do YouTube)
+            const trailers = {
+                'The Witcher': 'https://www.youtube.com/embed/ndl1W4ltcmg',
+                'Bridgerton': 'https://www.youtube.com/embed/gpv7ayf_tyE',
+                'Round 6': 'https://www.youtube.com/embed/6O6i7vNVXak'
+            };
+            
+            modalTitle.textContent = title;
+            frame.src = trailers[title] || 'https://www.youtube.com/embed/6O6i7vNVXak';
+            modal.classList.add('active');
+        }
+        
+        // Fechar modal
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            const frame = document.getElementById('videoFrame');
+            
+            modal.classList.remove('active');
+            frame.src = '';
+        }
+        
+        // Fechar modal clicando fora
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
