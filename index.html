@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FilosoFlix - Conteúdo Filosófico</title>
+    <title>FilosoFlix - Playlist Filosofia Vermelha</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -117,7 +117,7 @@
         .hero {
             height: 80vh;
             background: linear-gradient(to top, var(--dark) 0%, transparent 50%), 
-                        url('https://source.unsplash.com/random/1600x900/?philosophy,thinker') no-repeat center center/cover;
+                        url('https://i.ytimg.com/vi/YsBZP779Dr8/maxresdefault.jpg') no-repeat center center/cover;
             display: flex;
             align-items: flex-end;
             padding: 0 40px 100px;
@@ -348,25 +348,6 @@
             color: var(--primary);
         }
         
-        .search-options {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .search-option {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
-            color: var(--lighter);
-        }
-        
-        .search-option.active {
-            background: var(--primary);
-        }
-        
         .search-box {
             display: flex;
             margin-bottom: 20px;
@@ -400,46 +381,6 @@
         
         .search-box button:hover {
             background: var(--primary-dark);
-        }
-        
-        .playlist-input {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .playlist-input textarea {
-            padding: 12px 16px;
-            border-radius: 4px;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--lighter);
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 100px;
-        }
-        
-        .playlist-input textarea:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.2);
-        }
-        
-        .playlist-example {
-            font-size: 0.8rem;
-            color: var(--light);
-            margin-top: 5px;
-        }
-        
-        /* Related Videos */
-        .related-videos {
-            display: none;
-            margin-top: 30px;
-        }
-        
-        .related-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--lighter);
         }
         
         /* Modal de Vídeo */
@@ -634,10 +575,6 @@
             .search-box {
                 flex-direction: column;
             }
-            
-            .search-options {
-                flex-wrap: wrap;
-            }
         }
         
         @media (max-width: 480px) {
@@ -677,7 +614,7 @@
         </ul>
         
         <div class="nav-icons">
-            <i class="fas fa-search"></i>
+            <i class="fas fa-search" id="searchToggle"></i>
             <i class="fas fa-bookmark"></i>
             <div class="user-profile">
                 <i class="fas fa-user"></i>
@@ -688,24 +625,23 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-logo">Jornada Filosófica</div>
+            <div class="hero-logo">Filosofia Vermelha</div>
             <div class="hero-info">
-                <span class="match"><i class="fas fa-star"></i> 96% relevante</span>
+                <span class="match"><i class="fas fa-star"></i> 98% relevante</span>
                 <span><i class="fas fa-calendar"></i> 2023</span>
                 <span><i class="fas fa-tag"></i> Filosofia</span>
-                <span><i class="fas fa-list"></i> Conteúdo Diversificado</span>
+                <span><i class="fas fa-list"></i> Playlist</span>
             </div>
             <p class="hero-description">
-                Explore o universo da filosofia através dos tempos. Das perguntas fundamentais dos gregos antigos 
-                às reflexões contemporâneas sobre existência, ética e conhecimento. Uma jornada para expandir 
-                sua mente e compreensão do mundo.
+                Explore os conceitos fundamentais da filosofia através desta playlist especial. 
+                Dos pré-socráticos aos contemporâneos, mergulhe nas ideias que moldaram o pensamento ocidental.
             </p>
             <div class="hero-buttons">
-                <button class="btn btn-play" onclick="showTrailer('Introdução à Filosofia', 'mQ3pUfnyLcw')">
+                <button class="btn btn-play" onclick="showTrailer('Introdução à Filosofia Vermelha', 'YsBZP779Dr8')">
                     <i class="fas fa-play"></i> Assistir
                 </button>
-                <button class="btn btn-info" onclick="showRelatedVideos('filosofia')">
-                    <i class="fas fa-info-circle"></i> Mais Informações
+                <button class="btn btn-info" onclick="loadPlaylistVideos()">
+                    <i class="fas fa-info-circle"></i> Ver Playlist
                 </button>
             </div>
         </div>
@@ -719,36 +655,29 @@
             <span id="errorText"></span>
         </div>
 
-        <!-- Playlist de Filosofia -->
-        <div class="row">
-            <h2 class="row-title"><i class="fas fa-list"></i> Conteúdo em Destaque</h2>
-            <div class="row-content">
-                <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
-                <div class="carousel" id="featured-content">
-                    <!-- Os vídeos em destaque serão carregados aqui -->
-                </div>
-                <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
-            </div>
-        </div>
-
-        <!-- Search Section -->
-        <div class="search-section">
-            <h2 class="search-title"><i class="fas fa-search"></i> Descobrir Conteúdo</h2>
+        <!-- Search Section (inicialmente oculta) -->
+        <div class="search-section" id="searchSection" style="display: none;">
+            <h2 class="search-title"><i class="fas fa-search"></i> Pesquisar Conteúdo Filosófico</h2>
             
-            <div class="search-options">
-                <div class="search-option active" data-type="search">Buscar por Palavras</div>
-                <div class="search-option" data-type="playlist">Carregar Playlist</div>
-            </div>
-            
-            <div class="search-box" id="search-box">
+            <div class="search-box">
                 <input type="text" id="youtube-search" placeholder="Buscar por filósofos, conceitos, escolas...">
                 <button class="btn btn-primary" onclick="searchYouTube()"><i class="fas fa-search"></i> Buscar</button>
             </div>
-            
-            <div class="playlist-input" id="playlist-input">
-                <textarea id="playlist-urls" placeholder="Cole aqui os URLs ou IDs dos vídeos do YouTube (um por linha)&#10;Exemplo:&#10;https://www.youtube.com/watch?v=abcdefghijk&#10;https://youtu.be/abcdefghijk&#10;abcdefghijk"></textarea>
-                <button class="btn btn-primary" onclick="loadPlaylist()"><i class="fas fa-play-circle"></i> Carregar Playlist</button>
-                <div class="playlist-example">Você pode colar URLs completos do YouTube, links curtos ou apenas os IDs dos vídeos</div>
+        </div>
+
+        <!-- Playlist de Filosofia -->
+        <div class="row">
+            <h2 class="row-title"><i class="fas fa-list"></i> Playlist Filosofia Vermelha</h2>
+            <div class="row-content">
+                <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
+                <div class="carousel" id="playlist-content">
+                    <!-- Os vídeos da playlist serão carregados aqui -->
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i>
+                        <span>Carregando playlist...</span>
+                    </div>
+                </div>
+                <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
             </div>
         </div>
 
@@ -762,51 +691,19 @@
             </div>
         </div>
 
-        <!-- Playlist Carregada -->
-        <div class="row" id="playlist-results-row" style="display: none;">
-            <h2 class="row-title"><i class="fas fa-list"></i> Sua Playlist</h2>
-            <div class="row-content">
-                <div class="carousel" id="playlist-results">
-                    <!-- Playlist será inserida aqui -->
+        <!-- Modal de Vídeo -->
+        <div class="video-modal" id="videoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title" id="modalTitle">Assistir Video</div>
+                    <button class="close-modal" onclick="closeModal()">&times;</button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Filósofos em Destaque -->
-        <div class="row">
-            <h2 class="row-title"><i class="fas fa-users"></i> Grandes Filósofos</h2>
-            <div class="row-content">
-                <div class="carousel-nav left"><i class="fas fa-chevron-left"></i></div>
-                <div class="carousel" id="featured-philosophers">
-                    <!-- Os vídeos serão carregados via JavaScript -->
-                </div>
-                <div class="carousel-nav right"><i class="fas fa-chevron-right"></i></div>
-            </div>
-        </div>
-
-        <!-- Related Videos -->
-        <div class="related-videos" id="related-videos">
-            <h3 class="related-title">Conteúdo Similar</h3>
-            <div class="row-content">
-                <div class="carousel" id="related-results">
-                    <!-- Conteúdo relacionado será inserido aqui -->
+                <div class="video-container">
+                    <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
     </section>
-
-    <!-- Modal de Vídeo -->
-    <div class="video-modal" id="videoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Assistir Video</div>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
-            </div>
-            <div class="video-container">
-                <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer>
@@ -835,36 +732,38 @@
             
             <div class="copyright">
                 <p>&copy; 2023 FilosoFlix. Plataforma educativa de conteúdo filosófico.</p>
-                <p>Conteúdo fornecido pela API do YouTube para fins educacionais.</p>
+                <p>Conteúdo fornecido pelo YouTube para fins educacionais.</p>
             </div>
         </div>
     </footer>
 
     <script>
         // Variáveis para controle de estado
+        const API_KEY = 'AIzaSyA-dAUhwbwPzPrG6q9tJj-_fsh7HNQssPM'; // Sua chave de API
+        const PLAYLIST_ID = 'PLkyIBEruYlJ4kgqu98MzppwxR9JPWBUM5'; // ID da playlist Filosofia Vermelha
         let currentVideoId = '';
         let currentVideoTitle = '';
         
         // IDs de vídeos de filosofia que funcionam (em português)
         const workingVideoIds = [
+            'YsBZP779Dr8', // Vídeo inicial da playlist
             'mQ3pUfnyLcw', // Introdução à Filosofia
             'Y6e2w-1fZzE', // O que é Filosofia?
             '2wgB-9x2PRQ', // Platão e a Teoria das Ideias
-            'xsI9EcyTFUY', // Kant e o Imperativo Categórico
-            'h2ev_KMieC4'  // Foucault e a Microfísica do Poder
+            'xsI9EcyTFUY'  // Kant e o Imperativo Categórico
         ];
         
         // Títulos correspondentes aos vídeos
         const videoTitles = [
+            'Introdução à Filosofia Vermelha',
             'Introdução à Filosofia',
             'O Que É Filosofia? - Conceitos Básicos',
             'Platão e a Teoria das Ideias',
-            'Kant e o Imperativo Categórico',
-            'Foucault e a Microfísica do Poder'
+            'Kant e o Imperativo Categórico'
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Header scroll effect - corrigido
+            // Header scroll effect
             const header = document.getElementById('header');
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 100) {
@@ -899,28 +798,17 @@
                 }
             });
             
-            // Alternar entre busca e playlist
-            document.querySelectorAll('.search-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.search-option').forEach(opt => opt.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const type = this.getAttribute('data-type');
-                    if (type === 'search') {
-                        document.getElementById('search-box').style.display = 'flex';
-                        document.getElementById('playlist-input').style.display = 'none';
-                    } else {
-                        document.getElementById('search-box').style.display = 'none';
-                        document.getElementById('playlist-input').style.display = 'flex';
-                    }
-                });
+            // Toggle search section
+            document.getElementById('searchToggle').addEventListener('click', function() {
+                const searchSection = document.getElementById('searchSection');
+                searchSection.style.display = searchSection.style.display === 'none' ? 'block' : 'none';
             });
             
-            // Carregar playlists iniciais
-            loadInitialPlaylists();
+            // Carregar vídeos da playlist
+            loadPlaylistVideos();
         });
         
-        // Função melhorada para extrair ID do YouTube
+        // Função para extrair ID do YouTube
         function extractYouTubeId(url) {
             if (!url) return null;
             
@@ -947,39 +835,74 @@
             return null;
         }
         
-        // Carregar playlists iniciais SEM API
-        function loadInitialPlaylists() {
-            const featuredContainer = document.getElementById('featured-content');
-            const philosophersContainer = document.getElementById('featured-philosophers');
+        // Carregar vídeos da playlist
+        function loadPlaylistVideos() {
+            const playlistContainer = document.getElementById('playlist-content');
+            playlistContainer.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-spinner"></i>
+                    <span>Carregando playlist Filosofia Vermelha...</span>
+                </div>
+            `;
             
-            // Limpar containers
-            featuredContainer.innerHTML = '';
-            philosophersContainer.innerHTML = '';
+            // Fazer a busca na API do YouTube
+            fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId=${PLAYLIST_ID}&key=${API_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError('Erro ao carregar playlist: ' + data.error.message);
+                        return;
+                    }
+                    
+                    playlistContainer.innerHTML = '';
+                    
+                    if (data.items.length === 0) {
+                        playlistContainer.innerHTML = '<div class="loading">Nenhum vídeo encontrado na playlist</div>';
+                        return;
+                    }
+                    
+                    // Adicionar vídeos da playlist
+                    data.items.forEach(item => {
+                        const videoItem = createVideoItem(
+                            item.snippet.title, 
+                            item.snippet.resourceId.videoId, 
+                            item.snippet.thumbnails.medium ? item.snippet.thumbnails.medium.url : item.snippet.thumbnails.default.url
+                        );
+                        playlistContainer.appendChild(videoItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    showError('Erro ao carregar playlist. Verifique sua conexão.');
+                    
+                    // Fallback para vídeos locais em caso de erro
+                    loadFallbackVideos();
+                });
+        }
+        
+        // Carregar fallback caso a API falhe
+        function loadFallbackVideos() {
+            const playlistContainer = document.getElementById('playlist-content');
+            playlistContainer.innerHTML = '';
             
             // Adicionar vídeos que funcionam
             workingVideoIds.forEach((videoId, index) => {
                 const title = videoTitles[index] || `Video Filosófico ${index + 1}`;
-                
-                // Para conteúdo em destaque
-                const featuredItem = createVideoItem(title, videoId);
-                featuredContainer.appendChild(featuredItem);
-                
-                // Para filósofos em destaque (apenas alguns)
-                if (index < 3) {
-                    const philosopherItem = createVideoItem(title, videoId);
-                    philosophersContainer.appendChild(philosopherItem.cloneNode(true));
-                }
+                const videoItem = createVideoItem(title, videoId);
+                playlistContainer.appendChild(videoItem);
             });
         }
         
         // Criar item de vídeo
-        function createVideoItem(title, videoId) {
+        function createVideoItem(title, videoId, thumbnailUrl = null) {
             const videoItem = document.createElement('div');
             videoItem.className = 'carousel-item';
             videoItem.onclick = () => showTrailer(title, videoId);
             
+            const thumbUrl = thumbnailUrl || `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`;
+            
             videoItem.innerHTML = `
-                <img src="https://i.ytimg.com/vi/${videoId}/mqdefault.jpg" alt="${title}" onerror="this.src='https://via.placeholder.com/200x280/1a1a2e/8e44ad?text=Imagem+Não+Encontrada'">
+                <img src="${thumbUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/200x280/1a1a2e/8e44ad?text=Imagem+Não+Encontrada'">
                 <div class="carousel-item-info">
                     <div class="carousel-item-title">${title}</div>
                     <div class="carousel-item-meta">
@@ -991,7 +914,7 @@
             return videoItem;
         }
         
-        // Mostrar trailer - abordagem simplificada
+        // Mostrar trailer
         function showTrailer(title, videoId) {
             const modal = document.getElementById('videoModal');
             const frame = document.getElementById('videoFrame');
@@ -1018,84 +941,52 @@
             document.getElementById('errorMessage').style.display = 'none';
         }
         
-        // Buscar conteúdo
+        // Buscar conteúdo no YouTube
         function searchYouTube() {
             const query = document.getElementById('youtube-search').value.trim();
             if (!query) return;
             
-            showError('Funcionalidade de busca requer chave API do YouTube. Use a opção de playlist para adicionar vídeos específicos.');
-        }
-        
-        // Carregar playlist personalizada
-        function loadPlaylist() {
-            const playlistText = document.getElementById('playlist-urls').value.trim();
-            if (!playlistText) return;
-            
-            // Extrair IDs de vídeo do texto
-            const lines = playlistText.split('\n');
-            const videoIds = [];
-            const titles = [];
-            
-            lines.forEach(line => {
-                line = line.trim();
-                if (!line) return;
-                
-                let videoId = extractYouTubeId(line);
-                let title = "Video Personalizado";
-                
-                if (videoId) {
-                    videoIds.push(videoId);
-                    titles.push(title);
-                }
-            });
-            
-            if (videoIds.length === 0) {
-                showError('Nenhum ID de vídeo válido encontrado. Verifique os URLs ou IDs fornecidos.');
-                return;
-            }
-            
-            const resultsContainer = document.getElementById('playlist-results');
-            resultsContainer.innerHTML = '';
-            
-            // Mostrar a seção de playlist
-            document.getElementById('playlist-results-row').style.display = 'block';
-            document.getElementById('search-results-row').style.display = 'none';
-            
-            // Adicionar vídeos à playlist
-            videoIds.forEach((videoId, index) => {
-                const title = titles[index] || `Video ${index + 1}`;
-                const videoItem = createVideoItem(title, videoId);
-                resultsContainer.appendChild(videoItem);
-            });
-            
-            showSuccess(`Playlist carregada com ${videoIds.length} vídeo(s).`);
-        }
-        
-        // Mostrar vídeos relacionados
-        function showRelatedVideos(title) {
-            const relatedContainer = document.getElementById('related-results');
-            const relatedSection = document.getElementById('related-videos');
-            
-            relatedContainer.innerHTML = `
+            const resultsContainer = document.getElementById('youtube-results');
+            resultsContainer.innerHTML = `
                 <div class="loading">
                     <i class="fas fa-spinner"></i>
-                    <span>Carregando conteúdo filosófico...</span>
+                    <span>Buscando conteúdo filosófico...</span>
                 </div>
             `;
             
-            relatedSection.style.display = 'block';
+            // Mostrar a seção de resultados
+            document.getElementById('search-results-row').style.display = 'block';
             
-            // Simular carregamento de conteúdo relacionado
-            setTimeout(() => {
-                relatedContainer.innerHTML = '';
-                
-                // Adicionar alguns vídeos da nossa lista como "relacionados"
-                workingVideoIds.slice(0, 4).forEach((videoId, index) => {
-                    const relatedTitle = videoTitles[index] || `Video Relacionado ${index + 1}`;
-                    const videoItem = createVideoItem(relatedTitle, videoId);
-                    relatedContainer.appendChild(videoItem);
+            // Fazer a busca na API do YouTube
+            fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query + ' filosofia')}&type=video&key=${API_KEY}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        showError('Erro na busca: ' + data.error.message);
+                        return;
+                    }
+                    
+                    resultsContainer.innerHTML = '';
+                    
+                    if (data.items.length === 0) {
+                        resultsContainer.innerHTML = '<div class="loading">Nenhum resultado encontrado</div>';
+                        return;
+                    }
+                    
+                    // Adicionar resultados à busca
+                    data.items.forEach(item => {
+                        const videoItem = createVideoItem(
+                            item.snippet.title, 
+                            item.id.videoId, 
+                            item.snippet.thumbnails.medium ? item.snippet.thumbnails.medium.url : item.snippet.thumbnails.default.url
+                        );
+                        resultsContainer.appendChild(videoItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    showError('Erro na busca. Verifique sua conexão.');
                 });
-            }, 1500);
         }
         
         // Mostrar mensagem de erro
@@ -1109,37 +1000,6 @@
             setTimeout(() => {
                 errorElement.style.display = 'none';
             }, 5000);
-        }
-        
-        // Mostrar mensagem de sucesso
-        function showSuccess(message) {
-            const errorElement = document.getElementById('errorMessage');
-            const errorText = document.getElementById('errorText');
-            
-            errorText.textContent = message;
-            errorElement.style.backgroundColor = '#e8f5e9';
-            errorElement.style.color = '#2e7d32';
-            errorElement.style.display = 'block';
-            
-            setTimeout(() => {
-                errorElement.style.display = 'none';
-                errorElement.style.backgroundColor = '#ffebee';
-                errorElement.style.color = '#c62828';
-            }, 3000);
-        }
-        
-        // Função para adicionar vídeo manualmente (para testes)
-        function addVideoManually(videoId, title) {
-            if (!videoId || videoId.length !== 11) {
-                showError('ID de vídeo inválido. Deve ter 11 caracteres.');
-                return;
-            }
-            
-            const featuredContainer = document.getElementById('featured-content');
-            const videoItem = createVideoItem(title || 'Novo Vídeo', videoId);
-            featuredContainer.appendChild(videoItem);
-            
-            showSuccess('Vídeo adicionado com sucesso!');
         }
     </script>
 </body>
